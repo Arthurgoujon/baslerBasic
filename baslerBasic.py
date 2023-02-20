@@ -16,12 +16,15 @@ start_time = time.time()
 fps_avg_frame_count = 10
 
 camera = pylon.InstantCamera(pylon.TlFactory.GetInstance().CreateFirstDevice())
-camera.Open()
+#camera.Open()
 camera.StartGrabbing(pylon.GrabStrategy_LatestImageOnly) 
 
 converter = pylon.ImageFormatConverter()
 converter.OutputPixelFormat = pylon.PixelType_BGR8packed
 converter.OutputBitAlignment = pylon.OutputBitAlignment_MsbAligned
+
+cv2.namedWindow("baslerTest", cv2.WINDOW_NORMAL)
+cv2.resizeWindow("baslerTest", 950, 600)  
 
 while camera.IsGrabbing():
     grabResult = camera.RetrieveResult(5000, pylon.TimeoutHandling_ThrowException)
@@ -30,6 +33,7 @@ while camera.IsGrabbing():
         counter += 1
         image = converter.Convert(grabResult)
         frame = image.GetArray()
+        #frame = grabResult.GetArray()
 
         # Calculate the FPS
         if counter % fps_avg_frame_count == 0:
@@ -42,6 +46,7 @@ while camera.IsGrabbing():
         text_location = (left_margin, row_size)
         cv2.putText(frame, fps_text, text_location, cv2.FONT_HERSHEY_PLAIN,
         font_size, text_color, font_thickness)
+        print(fps_text)
 
         cv2.imshow('baslerTest', frame)
 
