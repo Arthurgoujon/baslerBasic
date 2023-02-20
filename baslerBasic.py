@@ -6,7 +6,7 @@ from pypylon import pylon
 row_size = 20  # pixels
 left_margin = 24  # pixels
 text_color = (0, 0, 255)  # red
-font_size = 1
+font_size = 10
 font_thickness = 1
 fps_avg_frame_count = 10
 
